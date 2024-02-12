@@ -1,10 +1,12 @@
 package ru.je_dog.products.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.CoroutineName
@@ -71,21 +73,26 @@ class FilmsFragment: Fragment() {
                 viewModel.updateScreen(ScreenType.Favorites)
             }
 
+            searchInput.addTextChangedListener {
+                val searchText = it.toString()
+                Log.d("InputFilt",searchText)
+                viewModel.updateSearchInput(searchText)
+            }
+            searchBt.setOnClickListener {
+                searchInputLayout.visibility = View.VISIBLE
+                titleLayout.visibility = View.GONE
+            }
+            backSearchBt.setOnClickListener {
+                searchInputLayout.visibility = View.GONE
+                titleLayout.visibility = View.VISIBLE
+                viewModel.updateSearchInput("")
+            }
+
             scope.launch {
                 launch {
-                    viewModel.films
+                    viewModel.filteredFilms
                         .collect { products ->
-                            when(viewModel.screen.value){
-
-                                ScreenType.Popular -> {
-                                    adapter.products = products
-                                }
-
-                                ScreenType.Favorites -> {
-                                    adapter.products = viewModel.favoriteFilms.value
-                                }
-                                else -> {}
-                            }
+                            adapter.products = products
                         }
                 }
                 launch {
@@ -100,26 +107,24 @@ class FilmsFragment: Fragment() {
                             when(screenType){
 
                                 ScreenType.Popular -> {
-                                    adapter.products = viewModel.films.value
                                     popularScreenBt.apply {
                                         background = context.getDrawable(R.drawable.screen_bt_selected_bg)
-                                        setTextColor(context.getColor(ru.je_dog.core.feature.R.color.primary))
+                                        setTextColor(context.getColor(ru.je_dog.core.feature.R.color.primaryTransparent))
                                     }
                                     favoriteScreenBt.apply {
                                         background = context.getDrawable(R.drawable.screen_bt_unselected_bg)
-                                        setTextColor(context.getColor(ru.je_dog.core.feature.R.color.primaryTransparent))
+                                        setTextColor(context.getColor(ru.je_dog.core.feature.R.color.primary))
                                     }
                                 }
 
                                 ScreenType.Favorites -> {
-                                    adapter.products = viewModel.favoriteFilms.value
                                     favoriteScreenBt.apply {
                                         background = context.getDrawable(R.drawable.screen_bt_selected_bg)
-                                        setTextColor(context.getColor(ru.je_dog.core.feature.R.color.primary))
+                                        setTextColor(context.getColor(ru.je_dog.core.feature.R.color.primaryTransparent))
                                     }
                                     popularScreenBt.apply {
                                         background = context.getDrawable(R.drawable.screen_bt_unselected_bg)
-                                        setTextColor(context.getColor(ru.je_dog.core.feature.R.color.primaryTransparent))
+                                        setTextColor(context.getColor(ru.je_dog.core.feature.R.color.primary))
                                     }
                                 }
                                 else -> {}

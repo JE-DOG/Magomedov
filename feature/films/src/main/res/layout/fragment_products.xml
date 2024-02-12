@@ -82,7 +82,7 @@
         android:paddingVertical="5dp"
         android:orientation="horizontal">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/popular_screen_bt"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -92,7 +92,11 @@
             android:textAllCaps="false"
             android:layout_height="wrap_content" />
 
-        <Button
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/favorite_screen_bt"
             android:layout_width="0dp"
             android:layout_weight="1"
