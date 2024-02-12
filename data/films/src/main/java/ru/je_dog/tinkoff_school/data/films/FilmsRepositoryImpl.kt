@@ -2,12 +2,13 @@ package ru.je_dog.tinkoff_school.data.films
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import ru.je_dog.core.model.DetailFilmDomain
 import ru.je_dog.core.model.FilmDomain
 import ru.je_dog.tinkoff_school.core.data.storage.model.FilmEntity
 import ru.je_dog.tinkoff_school.data.films.network.FilmsNetworkDataSource
 import ru.je_dog.tinkoff_school.data.films.storage.FavoritesFilmsStorageDataSource
 
-class ProductsRepositoryImpl(
+class FilmsRepositoryImpl(
     private val networkSource: FilmsNetworkDataSource,
     private val storageSource: FavoritesFilmsStorageDataSource
 ): FilmsRepository {
@@ -23,4 +24,9 @@ class ProductsRepositoryImpl(
     override fun getFavorites(): Flow<List<FilmDomain>> = flow{
         emit(storageSource.getAll())
     }
+
+    override fun getById(id: Int): Flow<DetailFilmDomain> = flow {
+        emit(networkSource.getById(id))
+    }
+
 }

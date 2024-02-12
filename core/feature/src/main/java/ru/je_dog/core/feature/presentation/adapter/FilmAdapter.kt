@@ -10,7 +10,8 @@ import ru.je_dog.core.feature.databinding.RcvFilmBinding
 import ru.je_dog.core.feature.model.FilmPresentation
 
 class FilmAdapter(
-    private val onLongClick: (FilmPresentation) -> Unit
+    private val onLongClick: (FilmPresentation) -> Unit,
+    private val onClick: (FilmPresentation) -> Unit
 ): RecyclerView.Adapter<FilmAdapter.ProductHolder>() {
 
     var products: List<FilmPresentation> = emptyList()
@@ -27,9 +28,14 @@ class FilmAdapter(
             if (film.isFavorite) {
                 favoriteStar.visibility = View.VISIBLE
             }
-            root.setOnLongClickListener {
-                onLongClick(film)
-                true
+            root.apply {
+                setOnLongClickListener {
+                    onLongClick(film)
+                    true
+                }
+                setOnClickListener {
+                    onClick(film)
+                }
             }
         }
     }

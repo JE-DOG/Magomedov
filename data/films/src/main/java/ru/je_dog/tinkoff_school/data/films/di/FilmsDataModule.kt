@@ -5,7 +5,7 @@ import dagger.Provides
 import ru.je_dog.core.source.NetworkSource
 import ru.je_dog.core.source.StorageSource
 import ru.je_dog.tinkoff_school.data.films.FilmsRepository
-import ru.je_dog.tinkoff_school.data.films.ProductsRepositoryImpl
+import ru.je_dog.tinkoff_school.data.films.FilmsRepositoryImpl
 import ru.je_dog.tinkoff_school.data.films.network.FilmsNetworkDataSource
 import ru.je_dog.tinkoff_school.data.films.network.di.FilmsNetworkModule
 import ru.je_dog.tinkoff_school.data.films.storage.FavoritesFilmsStorageDataSource
@@ -28,7 +28,7 @@ class FilmsDataModule {
         networkSource: FilmsNetworkDataSource,
         storageSource: FavoritesFilmsStorageDataSource
     ): FilmsRepository{
-        return ProductsRepositoryImpl(
+        return FilmsRepositoryImpl(
             networkSource = networkSource,
             storageSource = storageSource
         )

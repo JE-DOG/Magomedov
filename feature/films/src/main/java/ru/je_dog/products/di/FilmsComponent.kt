@@ -2,6 +2,7 @@ package ru.je_dog.products.di
 
 import dagger.Component
 import ru.je_dog.products.di.dependency.ProductComponentDeps
+import ru.je_dog.products.presentation.DetailFilmFragment
 import ru.je_dog.products.presentation.FilmsFragment
 import ru.je_dog.tinkoff_school.data.films.di.FilmsDataModule
 
@@ -16,6 +17,7 @@ import ru.je_dog.tinkoff_school.data.films.di.FilmsDataModule
 interface FilmsComponent {
 
     fun inject(fragment: FilmsFragment)
+    fun inject(fragment: DetailFilmFragment)
 
     @Component.Factory
     interface Factory{

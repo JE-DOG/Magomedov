@@ -13,12 +13,14 @@ import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ru.je_dog.core.feature.app.ContainerIdProvider
 import ru.je_dog.core.feature.presentation.adapter.FilmAdapter
 import ru.je_dog.products.R
 import ru.je_dog.products.databinding.FragmentProductsBinding
 import ru.je_dog.products.di.DaggerFilmsComponent
 import ru.je_dog.products.di.FilmsComponent
 import ru.je_dog.products.di.dependency.ProductsComponentDepsStore
+import ru.je_dog.products.vm.DetailFilmViewModel
 import ru.je_dog.products.vm.FilmsViewModel
 import ru.je_dog.products.vm.ScreenType
 import javax.inject.Inject
@@ -29,25 +31,32 @@ class FilmsFragment: Fragment() {
     @Inject
     lateinit var viewModelFactory: FilmsViewModel.Factory
     lateinit var viewModel: FilmsViewModel
-    private val adapter = FilmAdapter(
-        onLongClick = {
-            if (it.isFavorite){
-                viewModel.deleteFromFavorites(it)
-            }else {
-                viewModel.saveToFavorites(it)
+    private val adapter by lazy {
+        FilmAdapter(
+            onLongClick = {
+                if (it.isFavorite){
+                    viewModel.deleteFromFavorites(it)
+                }else {
+                    viewModel.saveToFavorites(it)
+                }
+            },
+            onClick = { film ->
+                Log.d("idTag","id From click in FilmsFragment ${film.filmId}")
+                val containerId = (requireActivity() as ContainerIdProvider).containerId
+                parentFragmentManager.beginTransaction()
+                    .add(containerId,DetailFilmFragment.create(film.filmId),null)
+                    .commit()
             }
-        }
-    )
-    private val scope = CoroutineScope(Dispatchers.Main + CoroutineName("ProductFragment"))
-    private val component: FilmsComponent by lazy {
-        val deps = ProductsComponentDepsStore.deps
-        DaggerFilmsComponent.factory()
-            .create(deps)
+        )
     }
+    private val scope = CoroutineScope(Dispatchers.Main + CoroutineName("ProductFragment"))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        component.inject(this)
+        val deps = ProductsComponentDepsStore.deps
+
+        component = DaggerFilmsComponent.factory().create(deps)
+        component!!.inject(this)
         viewModel = ViewModelProvider(this,viewModelFactory)[FilmsViewModel::class.java]
         viewModel.getTop100Films()
     }
@@ -145,5 +154,16 @@ class FilmsFragment: Fragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        component = null
+    }
+
+    companion object {
+
+        var component: FilmsComponent? = null
+
     }
 }
