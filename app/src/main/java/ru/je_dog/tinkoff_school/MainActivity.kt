@@ -1,9 +1,8 @@
 package ru.je_dog.tinkoff_school
 
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import ru.je_dog.products.presentation.ProductFragment
+import ru.je_dog.products.presentation.FilmsFragment
 import ru.je_dog.tinkoff_school.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_fragment_container,ProductFragment())
+            .replace(R.id.main_fragment_container,FilmsFragment())
             .commit()
 
     }

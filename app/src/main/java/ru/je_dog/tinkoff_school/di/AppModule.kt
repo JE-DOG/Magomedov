@@ -1,7 +1,10 @@
 package ru.je_dog.tinkoff_school.di
 
+import android.util.Log
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.je_dog.core.app.AppBuildConfig
@@ -12,10 +15,33 @@ import ru.je_dog.tinkoff_school.BuildConfig
 class AppModule {
 
     @Provides
-    fun provideRetrofit(): Retrofit {
+    fun provideOkhttpClient(): OkHttpClient {
+        val interceptor = HttpLoggingInterceptor().setLevel(
+            HttpLoggingInterceptor.Level.BODY
+        )
+        return OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            //This don't work((
+//            .addNetworkInterceptor { chain ->
+//                val request = chain.request()
+//
+//                request.newBuilder()
+//                    .addHeader("X-API-KEY","e30ffed0-76ab-4dd6-b41f-4c9da2b2735b")
+//                    .build()
+//
+//                chain.proceed(request)
+//            }
+            .build()
+    }
+
+    @Provides
+    fun provideRetrofit(
+        okHttpClient: OkHttpClient
+    ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://fakestoreapi.com")
+            .baseUrl("https://kinopoiskapiunofficial.tech")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
             .addCallAdapterFactory(CustomAdapterFactory())
             .build()
     }

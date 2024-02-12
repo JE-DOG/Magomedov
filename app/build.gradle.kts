@@ -28,7 +28,9 @@ android {
 }
 
 dependencies {
-    implementationProject(":feature:products")
+    implementationProject(":feature:films")
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.convertor.gson)
+    implementation(libs.okhttp.interceptor)
+    implementation(libs.okhttp.core)
 }

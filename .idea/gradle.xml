@@ -30,13 +30,13 @@
             <option value="$PROJECT_DIR$/core/data/storage" />
             <option value="$PROJECT_DIR$/core/feature" />
             <option value="$PROJECT_DIR$/data" />
+            <option value="$PROJECT_DIR$/data/films" />
+            <option value="$PROJECT_DIR$/data/films/network" />
+            <option value="$PROJECT_DIR$/data/films/storage" />
             <option value="$PROJECT_DIR$/data/network" />
-            <option value="$PROJECT_DIR$/data/products" />
-            <option value="$PROJECT_DIR$/data/products/network" />
-            <option value="$PROJECT_DIR$/data/products/storage" />
             <option value="$PROJECT_DIR$/data/storage" />
             <option value="$PROJECT_DIR$/feature" />
-            <option value="$PROJECT_DIR$/feature/products" />
+            <option value="$PROJECT_DIR$/feature/films" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

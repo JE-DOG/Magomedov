@@ -10,6 +10,7 @@
 
     xml-constraint-layout = "2.1.4"
     xml-material2 = "1.11.0"
+    xml-material3 = "1.7.0"
 
 #Other
 
@@ -47,6 +48,7 @@
     retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
     retrofit-convertor-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
     okhttp-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+    okhttp-core = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 
 #DI (Dagger)
 
