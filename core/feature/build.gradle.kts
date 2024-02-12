@@ -6,3 +6,7 @@ plugins {
 android {
     namespace = "ru.je_dog.core.feature"
 }
+
+dependencies {
+    compileOnly(libs.coil.core)
+}

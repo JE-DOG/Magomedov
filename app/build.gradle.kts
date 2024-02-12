@@ -22,4 +22,13 @@ android {
             )
         }
     }
+    buildFeatures {
+        buildConfig = true
+    }
+}
+
+dependencies {
+    implementationProject(":feature:products")
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.convertor.gson)
 }

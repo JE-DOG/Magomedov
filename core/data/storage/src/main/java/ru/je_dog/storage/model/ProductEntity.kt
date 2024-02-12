@@ -3,18 +3,33 @@ package ru.je_dog.storage.model
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import ru.je_dog.core.model.ProductDomain
+import ru.je_dog.core.model.RatingDomain
 
 @Entity(
-    tableName = "products_table"
+    tableName = ProductEntity.TABLE_NAME
 )
 data class ProductEntity(
     @PrimaryKey(autoGenerate = false)
-    val id: Int,
-    val title: String,
-    val price: Double,
-    val description: String,
-    val category: String,
-    val image: String,
+    override val id: Int,
+    override val title: String,
+    override val price: Double,
+    override val description: String,
+    override val category: String,
+    override val image: String,
     @Embedded
-    val rating: RatingEntity
+    override val rating: RatingEntity
+): ProductDomain{
+
+    companion object {
+        const val TABLE_NAME = "products_table"
+    }
+}
+
+fun ProductDomain.toEntity() = ProductEntity(
+    id,title,price,description,category,image,rating.toEntity()
+)
+
+fun RatingDomain.toEntity() = RatingEntity(
+    rate, count
 )

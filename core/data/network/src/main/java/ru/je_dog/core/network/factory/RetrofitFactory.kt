@@ -1,4 +1,4 @@
-package ru.je_dog.network.factory
+package ru.je_dog.core.network.factory
 
 import retrofit2.Retrofit
 

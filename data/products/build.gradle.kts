@@ -9,6 +9,6 @@ android {
 }
 
 dependencies {
-    implementationProject(":data:products:storage")
-    implementationProject(":data:products:network")
+    api(project(":data:products:storage"))
+    api(project(":data:products:network"))
 }
