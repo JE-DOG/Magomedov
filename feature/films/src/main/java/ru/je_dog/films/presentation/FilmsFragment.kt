@@ -82,7 +82,6 @@ class FilmsFragment: Fragment() {
 
             searchInput.addTextChangedListener {
                 val searchText = it.toString()
-                Log.d("InputFilt",searchText)
                 viewModel.updateSearchInput(searchText)
             }
             searchBt.setOnClickListener {
@@ -105,7 +104,8 @@ class FilmsFragment: Fragment() {
                 launch {
                     viewModel.showError
                         .collect { errorText ->
-                            errorText?.let { Toast.makeText(context, it, Toast.LENGTH_SHORT).show() }
+                            Log.d("fake",errorText.toString())
+                            errorText?.let { Toast.makeText(requireActivity(), it.message, Toast.LENGTH_SHORT).show() }
                         }
                 }
                 launch {
