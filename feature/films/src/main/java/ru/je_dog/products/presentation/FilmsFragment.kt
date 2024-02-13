@@ -75,7 +75,6 @@ class FilmsFragment: Fragment() {
 
             popularScreenBt.setOnClickListener {
                 viewModel.updateScreen(ScreenType.Popular)
-                viewModel.getTop100Films()
             }
             favoriteScreenBt.setOnClickListener {
                 viewModel.updateScreen(ScreenType.Favorites)
