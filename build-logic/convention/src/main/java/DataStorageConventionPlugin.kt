@@ -20,6 +20,7 @@ class DataStorageConventionPlugin: Plugin<Project> {
         }
         dependencies {
             implementationProject(":core:data:storage")
+            implementationProject(":core:data")
             with(DependenciesName){
                 with(libs){
                     //Room

@@ -17,11 +17,14 @@ class FeatureConventionPlugin: Plugin<Project> {
 
         with(pluginManager){
             applyIfNotFind("je_dog.android.library")
+            applyIfNotFind("je_dog.data.network")
+            applyIfNotFind("je_dog.data.storage")
             applyIfNotFind("org.jetbrains.kotlin.kapt")
         }
 
         dependencies {
             implementationProject(":core")
+            implementationProject(":core:feature")
             implementationProject(":core:data:storage")
             implementationProject(":core:data:network")
             with(libs){

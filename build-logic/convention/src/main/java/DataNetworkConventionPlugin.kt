@@ -19,6 +19,7 @@ class DataNetworkConventionPlugin: Plugin<Project> {
         }
         dependencies {
             implementationProject(":core:data:network")
+            implementationProject(":core:data")
             with(DependenciesName){
                 with(libs){
                     //Network

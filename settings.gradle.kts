@@ -24,12 +24,12 @@ include(":core:data:network")
 include(":core:data:storage")
 
 include(":feature")
-include(":feature:products")
+include(":feature:films")
 
 
 include(":data:storage")
 include(":data:network")
 include(":data")
-include(":data:products")
-include(":data:products:network")
-include(":data:products:storage")
+include(":data:films")
+include(":data:films:network")
+include(":data:films:storage")
