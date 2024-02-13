@@ -1,5 +1,6 @@
 package ru.je_dog.films.vm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.CoroutineName
@@ -31,8 +32,8 @@ class FilmsViewModel(
     private val _filteredFilms: MutableStateFlow<List<FilmPresentation>> = MutableStateFlow(emptyList())
     val filteredFilms: StateFlow<List<FilmPresentation>> = _filteredFilms
 
-    private val _showError: MutableStateFlow<String?> = MutableStateFlow(null)
-    val showError: StateFlow<String?> = _showError
+    private val _showError: MutableStateFlow<Throwable?> = MutableStateFlow(null)
+    val showError: StateFlow<Throwable?> = _showError
 
     private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
@@ -59,12 +60,12 @@ class FilmsViewModel(
         filmsRepository.getTop100Films()
             .onStart {
                 _isLoading.update { true }
-            }
-            .catch {
-                _showError.update {
-                    "Что-то пошло не так"
-                }
                 _showError.update { null }
+            }
+            .catch { exception ->
+                _showError.update {
+                    exception
+                }
                 _films.update { favorites }
                 _filteredFilms.update {
                     listFilter.getFilteredList(favorites)
