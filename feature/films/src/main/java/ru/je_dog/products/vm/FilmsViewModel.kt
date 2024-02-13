@@ -9,7 +9,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import ru.je_dog.core.feature.model.FilmPresentation
 import ru.je_dog.core.feature.model.toPresentation
@@ -47,25 +51,38 @@ class FilmsViewModel(
     }
 
     fun getTop100Films() = scope.launch {
+        val favorites = filmsRepository.getFavorites().first()
+            .map { filmDomain ->
+                filmDomain.toPresentation()
+                    .copy(isFavorite = true)
+            }
+
         filmsRepository.getTop100Films()
             .catch {
-                Log.d("SomeTag",it.message.toString())
-                Log.d("SomeTag",it.localizedMessage.toString())
                 _showError.update {
                     "Что-то пошло не так"
                 }
                 _showError.update { null }
+                _films.update { favorites }
+                _filteredFilms.update {
+                    listFilter.getFilteredList(favorites)
+                }
             }
-            .collect { newFilmsDomain ->
-                _films.update {
-                    newFilmsDomain.map { productDomain ->
-                        productDomain.toPresentation()
+            .map { filmsDomain ->
+                filmsDomain.map { filmDomain ->
+                    val favoriteFilm = favorites.firstOrNull { it.filmId == filmDomain.filmId }
+                    if (favoriteFilm != null){
+                        favoriteFilm
+                    }else {
+                        filmDomain.toPresentation()
                     }
                 }
+            }
+            .collect { newFilms ->
+                _films.update {
+                    newFilms
+                }
                 _filteredFilms.update {
-                    val newFilms = newFilmsDomain.map { productDomain ->
-                        productDomain.toPresentation()
-                    }
                     listFilter.getFilteredList(newFilms)
                 }
             }
@@ -94,37 +111,31 @@ class FilmsViewModel(
 
     fun saveToFavorites(film: FilmPresentation) = scope.launch {
         filmsRepository.saveToFavorites(film)
-        _films.update {  currentState ->
-            val newList = currentState
-            newList.map { mapFilm ->
-                if (newList.find { it.filmId == film.filmId } != null){
-                    film.copy(isFavorite = true)
-                }else {
-                    mapFilm
-                }
+        val newList = films.value.toMutableList()
+        val index = newList.lastIndexOf(film)
+        if (index != -1){
+            newList[index] = film.copy(isFavorite = true)
+            _films.update {
+                newList
             }
-            newList
-        }
-        _filteredFilms.update {
-            listFilter.getFilteredList(_films.value)
+            _filteredFilms.update {
+                listFilter.getFilteredList(newList)
+            }
         }
     }
 
     fun deleteFromFavorites(film: FilmPresentation) = scope.launch {
-        filmsRepository.deleteFromFavorites(film)
-        _films.update {  currentState ->
-            val newList = currentState.toMutableList()
-            newList.map { mapFilm ->
-                if (newList.find { it.filmId == film.filmId } != null){
-                    film.copy(isFavorite = false)
-                }else {
-                    mapFilm
-                }
+        filmsRepository.saveToFavorites(film)
+        val newList = films.value.toMutableList()
+        val index = newList.lastIndexOf(film)
+        if (index != -1){
+            newList[index] = film.copy(isFavorite = false)
+            _films.update {
+                newList
             }
-            newList
-        }
-        _filteredFilms.update {
-            listFilter.getFilteredList(_films.value)
+            _filteredFilms.update {
+                listFilter.getFilteredList(newList)
+            }
         }
     }
 
