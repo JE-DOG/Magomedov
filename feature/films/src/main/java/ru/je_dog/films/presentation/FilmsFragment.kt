@@ -32,18 +32,18 @@ class FilmsFragment: Fragment() {
     lateinit var viewModel: FilmsViewModel
     private val adapter by lazy {
         FilmAdapter(
-            onLongClick = {
-                if (it.isFavorite){
-                    viewModel.deleteFromFavorites(it)
+            onLongClick = { film ->
+                if (film.isFavorite){
+                    viewModel.deleteFromFavorites(film)
                 }else {
-                    viewModel.saveToFavorites(it)
+                    viewModel.saveToFavorites(film)
                 }
             },
             onClick = { film ->
-                Log.d("idTag","id From click in FilmsFragment ${film.filmId}")
                 val containerId = (requireActivity() as ContainerIdProvider).containerId
                 parentFragmentManager.beginTransaction()
                     .add(containerId,DetailFilmFragment.create(film.filmId),null)
+                    .addToBackStack(null)
                     .commit()
             }
         )

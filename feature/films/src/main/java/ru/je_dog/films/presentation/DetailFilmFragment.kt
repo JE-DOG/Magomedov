@@ -25,6 +25,7 @@ class DetailFilmFragment: Fragment() {
     lateinit var viewModelFactory: DetailFilmViewModel.Factory
     lateinit var viewModel: DetailFilmViewModel
     private val component = FilmsFragment.component
+    private val scope = CoroutineScope(Dispatchers.Main + CoroutineName("DetailFilmFragment"))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +33,6 @@ class DetailFilmFragment: Fragment() {
         component!!.inject(this)
         viewModel = ViewModelProvider(this,viewModelFactory)[DetailFilmViewModel::class.java]
         val filmId = requireArguments().getInt("id",1)
-        Log.d("idTag","id From click in DetailFilmFragment ${filmId}")
         viewModel.getFilm(filmId)
     }
 
@@ -46,8 +46,6 @@ class DetailFilmFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?): Unit = with(binding) {
-        val scope = CoroutineScope(Dispatchers.Main + CoroutineName("DetailFilmFragment"))
-
         backBt.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
@@ -106,7 +104,6 @@ class DetailFilmFragment: Fragment() {
 
         fun create(filmId: Int) = DetailFilmFragment().apply {
             val bundle = Bundle().apply {
-                Log.d("idTag","Create Fragment id tag: $filmId")
                 putInt("id",filmId)
             }
             arguments = bundle
