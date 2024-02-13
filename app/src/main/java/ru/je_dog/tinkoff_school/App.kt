@@ -1,7 +1,7 @@
 package ru.je_dog.tinkoff_school
 
 import android.app.Application
-import ru.je_dog.products.di.dependency.ProductsComponentDepsStore
+import ru.je_dog.films.di.dependency.ProductsComponentDepsStore
 import ru.je_dog.tinkoff_school.di.AppComponent
 import ru.je_dog.tinkoff_school.di.DaggerAppComponent
 

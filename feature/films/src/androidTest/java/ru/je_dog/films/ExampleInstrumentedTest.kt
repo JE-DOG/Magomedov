@@ -1,4 +1,4 @@
-package ru.je_dog.products
+package ru.je_dog.films
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

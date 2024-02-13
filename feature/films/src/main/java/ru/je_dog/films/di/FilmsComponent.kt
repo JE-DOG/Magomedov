@@ -1,9 +1,9 @@
-package ru.je_dog.products.di
+package ru.je_dog.films.di
 
 import dagger.Component
-import ru.je_dog.products.di.dependency.ProductComponentDeps
-import ru.je_dog.products.presentation.DetailFilmFragment
-import ru.je_dog.products.presentation.FilmsFragment
+import ru.je_dog.films.di.dependency.ProductComponentDeps
+import ru.je_dog.films.presentation.DetailFilmFragment
+import ru.je_dog.films.presentation.FilmsFragment
 import ru.je_dog.tinkoff_school.data.films.di.FilmsDataModule
 
 @Component(

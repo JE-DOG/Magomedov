@@ -5,7 +5,7 @@ import dagger.BindsInstance
 import dagger.Component
 import retrofit2.Retrofit
 import ru.je_dog.core.app.AppBuildConfig
-import ru.je_dog.products.di.dependency.ProductComponentDeps
+import ru.je_dog.films.di.dependency.ProductComponentDeps
 
 @Component(
     modules = [

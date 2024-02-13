@@ -1,4 +1,4 @@
-package ru.je_dog.products.vm
+package ru.je_dog.films.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -8,13 +8,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.je_dog.core.feature.model.DetailFilmPresentation
-import ru.je_dog.core.feature.model.FilmPresentation
 import ru.je_dog.core.feature.model.toPresentation
 import ru.je_dog.tinkoff_school.data.films.FilmsRepository
 import javax.inject.Inject

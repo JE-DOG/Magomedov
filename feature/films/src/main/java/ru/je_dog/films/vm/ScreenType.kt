@@ -1,4 +1,4 @@
-package ru.je_dog.products.vm
+package ru.je_dog.films.vm
 
 enum class ScreenType {
     Popular,

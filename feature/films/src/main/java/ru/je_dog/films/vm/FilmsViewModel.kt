@@ -1,6 +1,5 @@
-package ru.je_dog.products.vm
+package ru.je_dog.films.vm
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.CoroutineName
@@ -10,10 +9,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
 import ru.je_dog.core.feature.model.FilmPresentation
 import ru.je_dog.core.feature.model.toPresentation
@@ -58,6 +57,9 @@ class FilmsViewModel(
             }
 
         filmsRepository.getTop100Films()
+            .onStart {
+                _isLoading.update { true }
+            }
             .catch {
                 _showError.update {
                     "Что-то пошло не так"
@@ -77,6 +79,9 @@ class FilmsViewModel(
                         filmDomain.toPresentation()
                     }
                 }
+            }
+            .onCompletion {
+                _isLoading.update { false }
             }
             .collect { newFilms ->
                 _films.update {

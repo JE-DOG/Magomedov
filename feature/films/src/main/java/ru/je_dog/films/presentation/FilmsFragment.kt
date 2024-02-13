@@ -1,4 +1,4 @@
-package ru.je_dog.products.presentation
+package ru.je_dog.films.presentation
 
 import android.os.Bundle
 import android.util.Log
@@ -15,36 +15,35 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.je_dog.core.feature.app.ContainerIdProvider
 import ru.je_dog.core.feature.presentation.adapter.FilmAdapter
+import ru.je_dog.films.di.DaggerFilmsComponent
+import ru.je_dog.films.di.FilmsComponent
+import ru.je_dog.films.di.dependency.ProductsComponentDepsStore
+import ru.je_dog.films.vm.FilmsViewModel
+import ru.je_dog.films.vm.ScreenType
 import ru.je_dog.products.R
-import ru.je_dog.products.databinding.FragmentProductsBinding
-import ru.je_dog.products.di.DaggerFilmsComponent
-import ru.je_dog.products.di.FilmsComponent
-import ru.je_dog.products.di.dependency.ProductsComponentDepsStore
-import ru.je_dog.products.vm.DetailFilmViewModel
-import ru.je_dog.products.vm.FilmsViewModel
-import ru.je_dog.products.vm.ScreenType
+import ru.je_dog.products.databinding.FragmentFilmsBinding
 import javax.inject.Inject
 
 class FilmsFragment: Fragment() {
 
-    lateinit var binding: FragmentProductsBinding
+    lateinit var binding: FragmentFilmsBinding
     @Inject
     lateinit var viewModelFactory: FilmsViewModel.Factory
     lateinit var viewModel: FilmsViewModel
     private val adapter by lazy {
         FilmAdapter(
-            onLongClick = {
-                if (it.isFavorite){
-                    viewModel.deleteFromFavorites(it)
+            onLongClick = { film ->
+                if (film.isFavorite){
+                    viewModel.deleteFromFavorites(film)
                 }else {
-                    viewModel.saveToFavorites(it)
+                    viewModel.saveToFavorites(film)
                 }
             },
             onClick = { film ->
-                Log.d("idTag","id From click in FilmsFragment ${film.filmId}")
                 val containerId = (requireActivity() as ContainerIdProvider).containerId
                 parentFragmentManager.beginTransaction()
                     .add(containerId,DetailFilmFragment.create(film.filmId),null)
+                    .addToBackStack(null)
                     .commit()
             }
         )
@@ -66,7 +65,7 @@ class FilmsFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentProductsBinding.inflate(inflater)
+        binding = FragmentFilmsBinding.inflate(inflater)
         return binding.root
     }
 
@@ -76,7 +75,6 @@ class FilmsFragment: Fragment() {
 
             popularScreenBt.setOnClickListener {
                 viewModel.updateScreen(ScreenType.Popular)
-                viewModel.getTop100Films()
             }
             favoriteScreenBt.setOnClickListener {
                 viewModel.updateScreen(ScreenType.Favorites)
@@ -144,10 +142,10 @@ class FilmsFragment: Fragment() {
                     viewModel.isLoading
                         .collect {
                             if (it){
-                                rcv.visibility = View.GONE
+                                titleLayout.visibility = View.GONE
                                 loading.visibility = View.VISIBLE
                             }else {
-                                rcv.visibility = View.VISIBLE
+                                titleLayout.visibility = View.VISIBLE
                                 loading.visibility = View.GONE
                             }
                         }

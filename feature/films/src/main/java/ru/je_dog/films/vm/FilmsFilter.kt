@@ -1,4 +1,4 @@
-package ru.je_dog.products.vm
+package ru.je_dog.films.vm
 
 import ru.je_dog.core.common.list.filter.ListFilter
 import ru.je_dog.core.common.list.filter.ListFilterItem

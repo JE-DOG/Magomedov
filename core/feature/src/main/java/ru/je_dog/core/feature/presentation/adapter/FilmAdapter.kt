@@ -3,11 +3,13 @@ package ru.je_dog.core.feature.presentation.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
 import ru.je_dog.core.feature.databinding.RcvFilmBinding
 import ru.je_dog.core.feature.model.FilmPresentation
+import ru.je_dog.core.feature.presentation.adapter.diff_utill.FilmDiffUtils
 
 class FilmAdapter(
     private val onLongClick: (FilmPresentation) -> Unit,
@@ -16,8 +18,13 @@ class FilmAdapter(
 
     var products: List<FilmPresentation> = emptyList()
         set(value) {
+            val diffUtilCallback = FilmDiffUtils(
+                newList = value,
+                oldList = field
+            )
+            val diffUtilResult = DiffUtil.calculateDiff(diffUtilCallback)
             field = value
-            notifyDataSetChanged()
+            diffUtilResult.dispatchUpdatesTo(this)
         }
 
     inner class ProductHolder(private val binding: RcvFilmBinding): ViewHolder(binding.root) {
@@ -27,6 +34,8 @@ class FilmAdapter(
             image.load(film.posterUrlPreview)
             if (film.isFavorite) {
                 favoriteStar.visibility = View.VISIBLE
+            }else {
+                favoriteStar.visibility = View.GONE
             }
             root.apply {
                 setOnLongClickListener {
