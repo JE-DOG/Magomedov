@@ -3,7 +3,7 @@ package ru.je_dog.tinkoff_school
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ru.je_dog.core.feature.app.ContainerIdProvider
-import ru.je_dog.products.presentation.FilmsFragment
+import ru.je_dog.films.presentation.FilmsFragment
 import ru.je_dog.tinkoff_school.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), ContainerIdProvider {

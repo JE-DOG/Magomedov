@@ -1,4 +1,4 @@
-package ru.je_dog.products.di.dependency
+package ru.je_dog.films.di.dependency
 
 import android.content.Context
 import retrofit2.Retrofit

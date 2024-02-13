@@ -1,4 +1,4 @@
-package ru.je_dog.products.presentation
+package ru.je_dog.films.presentation
 
 import android.os.Bundle
 import android.util.Log
@@ -15,13 +15,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.je_dog.core.feature.app.ContainerIdProvider
 import ru.je_dog.core.feature.presentation.adapter.FilmAdapter
+import ru.je_dog.films.di.DaggerFilmsComponent
+import ru.je_dog.films.di.FilmsComponent
+import ru.je_dog.films.di.dependency.ProductsComponentDepsStore
+import ru.je_dog.films.vm.FilmsViewModel
+import ru.je_dog.films.vm.ScreenType
 import ru.je_dog.products.R
 import ru.je_dog.products.databinding.FragmentFilmsBinding
-import ru.je_dog.products.di.DaggerFilmsComponent
-import ru.je_dog.products.di.FilmsComponent
-import ru.je_dog.products.di.dependency.ProductsComponentDepsStore
-import ru.je_dog.products.vm.FilmsViewModel
-import ru.je_dog.products.vm.ScreenType
 import javax.inject.Inject
 
 class FilmsFragment: Fragment() {

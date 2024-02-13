@@ -10,7 +10,7 @@
 
     xml-constraint-layout = "2.1.4"
     xml-material2 = "1.11.0"
-    xml-material3 = "1.7.0"
+    mockito = "5.10.0"
 
 #Other
 
@@ -70,6 +70,7 @@
 
     junit = { module = "junit:junit", version.ref = "junit" }
     junit-extension-androidx = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
+    mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 
 #Espresso
 

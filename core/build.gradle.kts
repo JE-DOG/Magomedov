@@ -10,4 +10,5 @@ java {
 dependencies {
     compileOnly(libs.dagger.core)
     compileOnly(libs.kotlin.coroutines.core)
+    api(libs.mockito.core)
 }

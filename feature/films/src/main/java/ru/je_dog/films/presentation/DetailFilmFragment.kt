@@ -1,6 +1,5 @@
-package ru.je_dog.products.presentation
+package ru.je_dog.films.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,8 +13,8 @@ import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ru.je_dog.films.vm.DetailFilmViewModel
 import ru.je_dog.products.databinding.DetailFilmFragmentBinding
-import ru.je_dog.products.vm.DetailFilmViewModel
 import javax.inject.Inject
 import kotlin.text.StringBuilder
 
