@@ -16,18 +16,17 @@ import kotlinx.coroutines.launch
 import ru.je_dog.core.feature.app.ContainerIdProvider
 import ru.je_dog.core.feature.presentation.adapter.FilmAdapter
 import ru.je_dog.products.R
-import ru.je_dog.products.databinding.FragmentProductsBinding
+import ru.je_dog.products.databinding.FragmentFilmsBinding
 import ru.je_dog.products.di.DaggerFilmsComponent
 import ru.je_dog.products.di.FilmsComponent
 import ru.je_dog.products.di.dependency.ProductsComponentDepsStore
-import ru.je_dog.products.vm.DetailFilmViewModel
 import ru.je_dog.products.vm.FilmsViewModel
 import ru.je_dog.products.vm.ScreenType
 import javax.inject.Inject
 
 class FilmsFragment: Fragment() {
 
-    lateinit var binding: FragmentProductsBinding
+    lateinit var binding: FragmentFilmsBinding
     @Inject
     lateinit var viewModelFactory: FilmsViewModel.Factory
     lateinit var viewModel: FilmsViewModel
@@ -66,7 +65,7 @@ class FilmsFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentProductsBinding.inflate(inflater)
+        binding = FragmentFilmsBinding.inflate(inflater)
         return binding.root
     }
 
@@ -144,10 +143,10 @@ class FilmsFragment: Fragment() {
                     viewModel.isLoading
                         .collect {
                             if (it){
-                                rcv.visibility = View.GONE
+                                titleLayout.visibility = View.GONE
                                 loading.visibility = View.VISIBLE
                             }else {
-                                rcv.visibility = View.VISIBLE
+                                titleLayout.visibility = View.VISIBLE
                                 loading.visibility = View.GONE
                             }
                         }

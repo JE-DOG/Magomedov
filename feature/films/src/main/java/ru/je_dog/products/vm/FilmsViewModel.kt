@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.updateAndGet
 import kotlinx.coroutines.launch
@@ -58,6 +60,9 @@ class FilmsViewModel(
             }
 
         filmsRepository.getTop100Films()
+            .onStart {
+                _isLoading.update { true }
+            }
             .catch {
                 _showError.update {
                     "Что-то пошло не так"
@@ -77,6 +82,9 @@ class FilmsViewModel(
                         filmDomain.toPresentation()
                     }
                 }
+            }
+            .onCompletion {
+                _isLoading.update { false }
             }
             .collect { newFilms ->
                 _films.update {
